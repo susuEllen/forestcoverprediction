@@ -12,6 +12,7 @@ import org.apache.spark.{SparkContext, SparkConf}
 import org.apache.spark.mllib.tree.{RandomForest, DecisionTree}
 import org.apache.spark.mllib.tree.model.DecisionTreeModel
 import org.apache.spark.mllib.util.MLUtils
+import org.apache.spark.mllib.evaluation
 
 object ForestCoverTypePredictionApp {
   def main (args: Array[String]){
@@ -72,6 +73,14 @@ class ForestCoverTypePredictionApp {
 
     // get some prediction value from cross validation data
     // calculate auc/ accuracy and precision
+    val predicedAndActualLabel = crossValidationData.map {
+      labelPoint =>
+        (decisionTreeModel.predict(labelPoint.features), labelPoint.label)
+    }
+
+
+    new MulticlassMetrics()
+
 
     //
 
